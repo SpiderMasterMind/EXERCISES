@@ -3,8 +3,6 @@
 # if value >= 10 subtract 9
 # add digits together, if total ends in 0 then VALID else INVALID
 
-require "pry"
-
 class Luhn
   attr_accessor :test_number
 
@@ -14,19 +12,18 @@ class Luhn
   end
 
   def addends
-   array_to_process = test_number.to_s.reverse.split("")
-   result = []
-   new = array_to_process.each_with_index do |number, index|
-     if index % 2 == 0
-       result << number.to_i
-     else modified_number = number.to_i * 2
+    result = []
+    reverse_number_and_make_array.each_with_index do |number, index|
+      if index.even?
+        result << number.to_i
+      else modified_number = number.to_i * 2
         if modified_number >= 10
           modified_number = modified_number - 9
         end
-       result << modified_number
-     end
-   end
-   result.reverse
+      result << modified_number
+      end
+    end
+    result.reverse
   end
 
   def checksum
@@ -46,6 +43,12 @@ class Luhn
       new_number + (10 - luhn_remainder)
     end
   end
+
+  private
+
+  def reverse_number_and_make_array
+    array_to_process = test_number.to_s.reverse.split("")
+  end
 end
-test = Luhn.new(201773).checksum
+
 
